@@ -1,2 +1,8 @@
 //Gerar model + migration (criar a tabela no migration)
-npx sequelize-cli model:generate --name User --attributes id:integer
+npx sequelize-cli model:generate --name Cliente --attributes nome:String,telefone:String,dataCriacao:Date
+
+npx sequelize-cli model:generate --name Servico --attributes servico:String,preco:decimal
+
+npx sequelize-cli model:generate --name Agendamento --attributes dataHora:Date,servico:Integer,cliente:Integer,funcionario:Integer
+
+npx sequelize-cli model:generate --name Funcionario --attributes nome:String,telefone:String,dataNascimento:Date,endereco:String,cpf:String,salario:decimal,cargo:String,administrador:boolean,usuario:String,senha:String
