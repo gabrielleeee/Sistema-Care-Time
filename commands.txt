@@ -1,0 +1,2 @@
+//Gerar model + migration (criar a tabela no migration)
+npx sequelize-cli model:generate --name User --attributes id:integer

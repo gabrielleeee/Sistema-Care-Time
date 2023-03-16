@@ -1,0 +1,6 @@
+const path = require('path')
+
+module.exports = {
+    //procura pelo arquivo config.js em vez do config.json
+    config: path.resolve('config', 'config.js')
+}
