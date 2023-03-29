@@ -10,7 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Cliente, {
+        foreignKey: 'cliente_id',
+        targetKey: 'id',
+        as: 'cliente'
+      })
+      this.belongsTo(models.Funcionario, {
+        foreignKey: 'funcionario_id',
+        targetKey: 'id',
+        as: 'funcionario'
+      })
+      this.belongsTo(models.Servico, {
+        foreignKey: 'servico_id',
+        targetKey: 'id',
+        as: 'servico'
+      })
     }
   }
   Agendamento.init({
@@ -24,15 +38,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
-    servico: {
+    servico_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    cliente: {
+    cliente_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    funcionario: {
+    funcionario_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

@@ -6,3 +6,5 @@ npx sequelize-cli model:generate --name Servico --attributes servico:String,prec
 npx sequelize-cli model:generate --name Agendamento --attributes dataHora:Date,servico:Integer,cliente:Integer,funcionario:Integer
 
 npx sequelize-cli model:generate --name Funcionario --attributes nome:String,telefone:String,dataNascimento:Date,endereco:String,cpf:String,salario:decimal,cargo:String,administrador:boolean,usuario:String,senha:String
+
+npx sequelize-cli migration:generate --name alter-table-agendamentos

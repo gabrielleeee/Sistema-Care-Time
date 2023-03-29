@@ -10,9 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsToMany(models.Agendamento, {
+        through: 'agendamentos',     //Tabela intermediária
+        foreignKey: 'servico_id',         //Chave strangeira da tabela iintermediaria
+        otherKey: 'cliente',
+        otherKey: 'funcionario_id',
+        as: 'agendamento'
+      })
     }
   }
+  
   Servico.init({
     id: {
       allowNull: false,

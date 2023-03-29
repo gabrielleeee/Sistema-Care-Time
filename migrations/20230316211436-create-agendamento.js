@@ -13,15 +13,15 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-      servico: {
+      servico_id: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      cliente: {
+      cliente_id: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      funcionario: {
+      funcionario_id: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
