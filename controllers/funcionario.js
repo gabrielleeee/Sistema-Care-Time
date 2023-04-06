@@ -1,5 +1,7 @@
 //importar o model ncorrespondente ao controller
 const {Funcionario, Agendamento} = require('../models')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const controller = {}  //objeto vazio
 
@@ -14,6 +16,9 @@ const controller = {}  //objeto vazio
 
 controller.create = async (req, res) => {
     try {
+
+        //Criptografa a senha
+        req.body.senha = await bcrypt.hash(req.body.senha, 12)
         await Funcionario.create(req.body)
         //HTTP 201: Created
         res.status(201).end()
@@ -53,6 +58,12 @@ controller.retrieveOne = async(req, res) => {
 
 controller.update = async (req, res) => {
     try{
+
+        //Se houver sido passado o compo "senha",
+        //criptografa a senha
+        if(req.body.senha){
+            req.body.senha = await bcrypt.hash(req.body.senha, 12)
+        }
         const response = await Funcionario.update(
             req.body,
             { where: {id: req.params.id }}
@@ -93,6 +104,48 @@ controller.delete = async (req, res) => {
         }
     }
     catch(error) {
+        console.error(error)
+    }
+}
+
+controller.login = async(req,res) => {
+    try{
+        const funcionario = await Funcionario.scope('withSenha').findOne({where: {usuario: req.body.usuario}})
+        //Funcionário não encontado => HTTP 401: Unauthorized
+        if(!funcionario) return res.status(401).end()
+
+        const pwMatches = await bcrypt.compare(req.body.senha, funcionario.senha)
+
+        if(pwMatches){
+
+            //A senha confere
+            const token = jwt.sign({
+                id: funcionario.id,
+                nome: funcionario.nome,
+                telefone: funcionario.telefone,
+                dataNascimento: funcionario.dataNascimento,
+                endereco: funcionario.endereco,
+                cpf: funcionario.cpf,
+                salario: funcionario.salario,
+                cargo: funcionario.cargo,
+                administrador: funcionario.administrador,
+                usuario: funcionario.usuario
+
+            },
+            process.env.TOKEN_SECRET,
+            { expiresIn: '24h' }
+            )
+
+            //Retorna o token => HTTP 200: OK 
+            res.json({ auth: true, token})
+        }
+        else{
+            //Senha errada -> HTTP 401: Unauthorized
+            res.status(401).end()
+        }
+    }
+
+    catch(error){
         console.error(error)
     }
 }

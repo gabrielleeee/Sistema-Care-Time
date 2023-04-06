@@ -63,13 +63,27 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     senha: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(200),
       allowNull:false
     },
   }, {
     sequelize,
     modelName: 'Funcionario',
-    tableName: 'funcionarios'
+    tableName: 'funcionarios',
+    //Esconde o campo "senha"
+    defaultScope: {
+      attributes: {
+        exclude: ['senha']
+      }
+    },
+    //Inclui o campo "senha"
+    scopes: {
+      withSenha: {
+        attributes: {
+          include: ['senha']
+        }
+      }
+    }
   });
   return Funcionario;
 };
