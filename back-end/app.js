@@ -14,6 +14,9 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+const cors = require('cors')
+app.use(cors())
+
 //Conexão colm Banco de Dados-------------------------------------------------
 
 const db = require('./models')
@@ -37,6 +40,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Chama a verificação de autenticação para qualquer rota
+const auth = require('./lib/auth')
+app.use(auth)
 
 /*********ROTAS**************/
 
