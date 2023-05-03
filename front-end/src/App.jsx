@@ -24,6 +24,7 @@ return(
             <Route path="agendamento" element={<AuthGuard> <AgendamentoList/> </AuthGuard>} />
           </Routes>
         </Box>
+
 		</BrowserRouter>
 	</div>
 )
