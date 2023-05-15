@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import HeaderBar from './components/ui/HeaderBar'
 import Box from '@mui/material/Box'
 import AgendamentoList from './pages/agendamentos/AgendamentoList'
+import AgendamentoForm from './pages/agendamentos/AgendamentoForm'
 
 function AuthGuard({children}) {
   // Estaremos autenticados se tivermos um token gravado no localStorage
@@ -21,7 +22,8 @@ return(
           <Routes>
             <Route path="/" element={ <AuthGuard> <Home/> </AuthGuard>} />
             <Route path="/login" element={<Login />}/>
-            <Route path="agendamento" element={<AuthGuard> <AgendamentoList/> </AuthGuard>} />
+            <Route path="/agendamento" element={<AuthGuard> <AgendamentoList/> </AuthGuard>} />
+            <Route path="/agendamento/new" element={ <AuthGuard> <AgendamentoForm /> </AuthGuard>} />
           </Routes>
         </Box>
 

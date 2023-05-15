@@ -5,8 +5,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
-import Snackbar from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
+import Notification from '../components/ui/Notification'
 import myfetch from '../utils/myfetch'
 import PageTitle from '../components/ui/PageTitle'
 
@@ -15,7 +14,7 @@ export default function Login() {
   const [usuario, setUsuario] = React.useState('')
   const [senha, setSenha] = React.useState('')
   const [showWaiting, setShowWaiting] = React.useState(false)
-  const [snack, setSnack] = React.useState({
+  const [notif, setNotif] = React.useState({
     show: false,
     message: '',
     severity: 'success' // ou 'error'
@@ -36,7 +35,7 @@ export default function Login() {
       window.localStorage.setItem('token', result.token)
 
       // Exibe o snackbar de sucesso
-      setSnack({
+      setNotif({
         show: true,
         message: 'Autenticação realizada com sucesso!',
         severity: 'success'
@@ -50,7 +49,7 @@ export default function Login() {
       window.localStorage.removeItem('token')  
 
       // Exibe o snackbar de erro
-      setSnack({
+      setNotif({
         show: true,
         message: error.message,
         severity: 'error'
@@ -61,11 +60,11 @@ export default function Login() {
     }
   }
 
-  function handleSnackClose(event, reason) {
+  function handleNotifClose(event, reason) {
     if (reason === 'clickaway') {
       return;
     }
-    setSnack({ show: false })
+    setNotif({ show: false })
   };
 
   return (
@@ -77,11 +76,13 @@ export default function Login() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Snackbar open={snack.show} autoHideDuration={4000} onClose={handleSnackClose}>
-        <Alert onClose={handleSnackClose} severity={snack.severity} sx={{ width: '100%' }}>
-          {snack.message}
-        </Alert>
-      </Snackbar>
+      <Notification 
+      show={notif.show} 
+      severity={notif.severity}
+      onClose={handleNotifClose}
+      >
+        {notif.message}
+      </Notification>
 
       <PageTitle title="Login" />
 
@@ -109,7 +110,7 @@ export default function Login() {
               name="senha" 
               label="Senha" 
               variant="filled"
-              type="senha"
+              type="password"
               fullWidth
               onChange={handleChange}
               value={senha}
@@ -123,7 +124,3 @@ export default function Login() {
     </>
   )
 }
-
-
-	
-

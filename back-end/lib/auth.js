@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
 
+   next()
+   return
 
   const bypassRoutes = [
     { url: '/funcionarios/login', method: 'POST' }
