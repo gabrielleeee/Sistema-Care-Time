@@ -42,21 +42,21 @@ export default function MainMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose} component={Link} to="/login">
+        <MenuItem onClick={handleClose} component={Link} to="/login" sx={{ color: '#8e44ad' }}>
             Login
         </MenuItem>
 
         <Divider />
 
-        <MenuItem onClick={handleClose} component={Link} to="/">
+        <MenuItem onClick={handleClose} component={Link} to="/" sx={{ color: '#8e44ad' }}>
             Início
         </MenuItem>
 
-        <MenuItem onClick={handleClose} component={Link} to="/agendamento">
+        <MenuItem onClick={handleClose} component={Link} to="/agendamento" sx={{ color: '#8e44ad' }}>
             Agendamentos
         </MenuItem>
 
-        <MenuItem onClick={handleClose} component={Link} to="/funcionario">
+        <MenuItem onClick={handleClose} component={Link} to="/funcionario" sx={{ color: '#8e44ad' }}>
             Funcionários
         </MenuItem>
       </Menu>

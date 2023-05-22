@@ -188,7 +188,7 @@ export default function AgendamentoList() {
         {notif.message}
       </Notification>
 
-      <PageTitle title="Agendamentos"  />
+      <PageTitle title="Agendamentos" />
 
       <Box sx={{
         display: "flex",

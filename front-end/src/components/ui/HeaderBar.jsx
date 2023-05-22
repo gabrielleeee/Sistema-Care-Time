@@ -10,7 +10,7 @@ import MainMenu from './MainMenu'
 export default function HeaderBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: "#8e44ad" }}>
         <Toolbar>
 
           <MainMenu />
