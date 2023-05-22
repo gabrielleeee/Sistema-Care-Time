@@ -5,61 +5,60 @@ const Funcionario = Joi.object({
     .min(10)
     .max(30)
     .required()
-    .error(new Error('O nome é obrigatório ')),
+    .error(new Error('O nome é obrigatório')),
 
     telefone: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O serviço deve ser informado')),
+     .error(new Error('O telefone é obrigatório')),
 
-     dataNascimento: Joi.date()
-     .min(0)  //não aceita negativo
+     dataNascimento: Joi.string()
      .max(100)
      .required()
-     .error(new Error('O cliente deve ser informado')),
+     .error(new Error('A data de Nascimento é obrigatória')),
 
      endereco: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado')),
+     .error(new Error('O endereço é obrigatório')),
 
      cpf: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado')),
+     .error(new Error('O cpf é obrigatório')),
 
      salario: Joi.number()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado')),
+     .error(new Error('O salário é obrigatório')),
 
      cargo: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado')),
+     .error(new Error('O cargo é obrigatório')),
 
-     administrador: Joi.boolean()
+     administrador: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado')),
+     .error(new Error('O campo Administrador deve ser informado')),
 
      usuario: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado')),
+     .error(new Error('O usuário é obrigatório')),
 
      senha: Joi.string()
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O funcionário deve ser informado'))
+     .error(new Error('A senha é obrigatória'))
 })
 
 export default Funcionario
