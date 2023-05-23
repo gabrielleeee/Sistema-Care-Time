@@ -15,7 +15,7 @@ export default function HeaderBar() {
 
           <MainMenu />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Startisan
+            Care Time
           </Typography>
           <Button color="inherit" component={Link} to="/login">Login</Button>
         </Toolbar>

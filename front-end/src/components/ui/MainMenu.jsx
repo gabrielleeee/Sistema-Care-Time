@@ -59,6 +59,14 @@ export default function MainMenu() {
         <MenuItem onClick={handleClose} component={Link} to="/funcionario" sx={{ color: '#8e44ad' }}>
             Funcionários
         </MenuItem>
+
+        <MenuItem onClick={handleClose} component={Link} to="/servico" sx={{ color: '#8e44ad' }}>
+            Serviços
+        </MenuItem>
+
+        <MenuItem onClick={handleClose} component={Link} to="/cliente" sx={{ color: '#8e44ad' }}>
+            Clientes
+        </MenuItem>
       </Menu>
     </div>
   );

@@ -8,6 +8,10 @@ import AgendamentoList from './pages/agendamentos/AgendamentoList'
 import AgendamentoForm from './pages/agendamentos/AgendamentoForm'
 import FuncionarioList from './pages/funcionarios/FuncionarioList'
 import FuncionarioForm from './pages/funcionarios/FuncionarioForm'
+import ServicoList from './pages/servicos/ServicoList'
+import ServicoForm from './pages/servicos/ServicoForm'
+import ClienteList from './pages/clientes/ClienteList'
+import ClienteForm from './pages/clientes/ClienteForm'
 
 function AuthGuard({children}) {
   // Estaremos autenticados se tivermos um token gravado no localStorage
@@ -28,6 +32,10 @@ return(
             <Route path="/agendamento/new" element={ <AuthGuard> <AgendamentoForm /> </AuthGuard>} />
             <Route path="/funcionario" element={<AuthGuard> <FuncionarioList/> </AuthGuard>} />
             <Route path="/funcionario/new" element={ <AuthGuard> <FuncionarioForm /> </AuthGuard>} />
+            <Route path="/servico" element={<AuthGuard> <ServicoList/> </AuthGuard>} />
+            <Route path="/servico/new" element={ <AuthGuard> <ServicoForm /> </AuthGuard>} />
+            <Route path="/cliente" element={<AuthGuard> <ClienteList/> </AuthGuard>} />
+            <Route path="/cliente/new" element={ <AuthGuard> <ClienteForm /> </AuthGuard>} />
           </Routes>
         </Box>
 
