@@ -36,6 +36,12 @@ myfetch.post = async function(path, body) {
   else throw new Error(getErrorDescription(response))
 }
 
+myfetch.put = async function(path, body) {
+  const response = await fetch(baseUrl + path, defaultOptions(body, 'PUT'))
+  if(response.ok) return true
+  else throw new Error(getErrorDescription(response))
+}
+
 myfetch.get = async function(path) {
   const response = await fetch(baseUrl + path, defaultOptions())
   if(response.ok) return response.json()

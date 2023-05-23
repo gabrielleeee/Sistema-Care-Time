@@ -26,5 +26,5 @@ const Agendamento = Joi.object({
      .error(new Error('O funcionário deve ser informado'))
    
 })
-
+.options({allowUnknown: true})
 export default Agendamento

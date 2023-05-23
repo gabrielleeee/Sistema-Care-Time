@@ -7,13 +7,15 @@ import myfetch from '../../utils/myfetch';
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Agendamentoss from '../../models/Agendamentoss'
+import getValidationMessages from '../../utils/getValidationMessages';
 
 export default function AgendamentoForm() {
     const API_PATH = '/agendamentos'
 
     const navigate = useNavigate()
+    const params = useParams()
   
     const [state, setState] = React.useState({
       Agendamento: {}, // Objeto vazio
@@ -42,18 +44,54 @@ export default function AgendamentoForm() {
       // Envia os dados para o back-end
       sendData()
     }
+
+      //Este useffect será executado apenas durante o carregamento inicial da página
+    React.useEffect(() => {
+      //se houver parâmetro id na rota, dvemos carregar um rgistro existente para edição
+      if(params.id)fetchData()
+    }, [])
   
+    async function fetchData() {
+      setState({...state, showWaiting:true, errors:{}})
+      try {
+        const result = await myfetch.get(`${API_PATH}/${params.id}`)
+          setState({
+            ...state,
+            Agendamento: result,
+            showWaiting: false
+          })
+      }
+      catch(error){
+        console.log(error)
+        setState({
+          ...state,
+          showWaiting: false,
+          errors: errorMessages,
+          notif: {
+            severity: 'error',
+            show: true,
+            message: 'ERRO: ' + error.message
+          }
+        })
+      }
+    }
+
     async function sendData() {
       setState({...state, showWaiting: true})
       try {
-        //Chama a validação da biblioteca Joi
-        await Agendamentoss.validateAsync(Agendamento)
+         //Chama a validação da biblioteca Joi
+         await Agendamentoss.validateAsync(Agendamento, {abortEarly: false})
 
-        await myfetch.post(API_PATH, Agendamento)
+         //registro já existe: chama put para atualizar
+         if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, Agendamento)
+ 
+         //registro não exist: chama post para criar
+         else await myfetch.post(API_PATH, Agendamento)
         // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
         setState({
           ...state,
           showWaiting: false,
+          errors: {},
           notif: {
             show: true,
             severity: 'success',
@@ -62,14 +100,17 @@ export default function AgendamentoForm() {
         })
       }
       catch(error) {
+        const { validationError, errorMessages } = getValidationMessages(error)
+
         console.error(error)
         // DAR FEEDBACK NEGATIVO
         setState({
           ...state,
           showWaiting: false,
+          errors: errorMessages,
           notif: {
             severity: 'error',
-            show: true,
+            show: !validationError,
             message: 'ERRO: ' + error.message
           }
         })
@@ -104,7 +145,7 @@ export default function AgendamentoForm() {
           {notif.message}
       </Notification>
         
-        <PageTitle title="Cadastrar novo agendamento" />
+        <PageTitle title={params.id ? "Editar agendamento" : "Cadastrar novo agendamento"} />
 
 
         <form onSubmit={handleFormSubmit}>
