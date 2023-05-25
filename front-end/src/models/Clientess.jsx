@@ -11,8 +11,9 @@ const Cliente = Joi.object({
      .min(0)  //não aceita negativo
      .max(100)
      .required()
-     .error(new Error('O telefone deve ser informado')),
+     .error(new Error('O telefone deve ser informado'))
    
 })
 
+.options({allowUnknown: true})
 export default Cliente

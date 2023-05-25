@@ -7,13 +7,15 @@ import myfetch from '../../utils/myfetch';
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Clientess from '../../models/Clientess'
+import getValidationMessages from '../../utils/getValidationMessages';
 
 export default function ClienteForm() {
     const API_PATH = '/clientes'
 
     const navigate = useNavigate()
+    const params = useParams()
   
     const [state, setState] = React.useState({
       Cliente: {}, // Objeto vazio
@@ -43,13 +45,46 @@ export default function ClienteForm() {
       sendData()
     }
   
+      //Este useffect será executado apenas durante o carregamento inicial da página
+    React.useEffect(() => {
+      //se houver parâmetro id na rota, dvemos carregar um rgistro existente para edição
+      if(params.id)fetchData()
+    }, [])
+  
+    async function fetchData() {
+      setState({...state, showWaiting:true, errors:{}})
+      try {
+        const result = await myfetch.get(`${API_PATH}/${params.id}`)
+          setState({
+            ...state,
+            Cliente: result,
+            showWaiting: false
+          })
+      }
+      catch(error){
+        console.log(error)
+        setState({
+          ...state,
+          showWaiting: false,
+          errors: errorMessages,
+          notif: {
+            severity: 'error',
+            show: true,
+            message: 'ERRO: ' + error.message
+          }
+        })
+      }
+    }
+
     async function sendData() {
       setState({...state, showWaiting: true})
       try {
         //Chama a validação da biblioteca Joi
-        await Clientess.validateAsync(Cliente)
+        await Clientess.validateAsync(Cliente, {abortEarly: false})
 
-        await myfetch.post(API_PATH, Cliente)
+        if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, Cliente)
+
+        else await myfetch.post(API_PATH, Cliente)
         // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
         setState({
           ...state,
@@ -62,14 +97,17 @@ export default function ClienteForm() {
         })
       }
       catch(error) {
+        const { validationError, errorMessages } = getValidationMessages(error)
+
         console.error(error)
         // DAR FEEDBACK NEGATIVO
         setState({
           ...state,
           showWaiting: false,
+          errors: errorMessages,
           notif: {
             severity: 'error',
-            show: true,
+            show: !validationError,
             message: 'ERRO: ' + error.message
           }
         })
@@ -104,7 +142,7 @@ export default function ClienteForm() {
           {notif.message}
       </Notification>
         
-        <PageTitle title="Cadastrar novo cliente" />
+        <PageTitle title= {params.id ? "Editar cliente ": "Cadastrar novo cliente"} />
 
 
         <form onSubmit={handleFormSubmit}>

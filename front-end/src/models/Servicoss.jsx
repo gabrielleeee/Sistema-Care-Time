@@ -14,5 +14,5 @@ const Servico = Joi.object({
      .error(new Error('O preço deve ser informado')),
    
 })
-
+.options({allowUnknown: true})
 export default Servico

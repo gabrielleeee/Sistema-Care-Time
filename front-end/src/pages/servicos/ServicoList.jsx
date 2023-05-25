@@ -81,9 +81,11 @@ export default function ServicoList() {
       align: 'center',
       width: 90,
       renderCell: params => (
-        <IconButton aria-label="Editar">
-          <EditIcon />
-        </IconButton>
+        <Link to={'./' + params.id}>
+          <IconButton aria-label="Editar">
+            <EditIcon />
+          </IconButton>
+        </Link>
       )
     },
     {

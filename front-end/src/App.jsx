@@ -33,10 +33,13 @@ return(
             <Route path="/agendamento/:id" element={ <AuthGuard> <AgendamentoForm /> </AuthGuard>} />
             <Route path="/funcionario" element={<AuthGuard> <FuncionarioList/> </AuthGuard>} />
             <Route path="/funcionario/new" element={ <AuthGuard> <FuncionarioForm /> </AuthGuard>} />
+            <Route path="/funcionario/:id" element={ <AuthGuard> <FuncionarioForm /> </AuthGuard>} />
             <Route path="/servico" element={<AuthGuard> <ServicoList/> </AuthGuard>} />
             <Route path="/servico/new" element={ <AuthGuard> <ServicoForm /> </AuthGuard>} />
+            <Route path="/servico/:id" element={ <AuthGuard> <ServicoForm /> </AuthGuard>} />
             <Route path="/cliente" element={<AuthGuard> <ClienteList/> </AuthGuard>} />
             <Route path="/cliente/new" element={ <AuthGuard> <ClienteForm /> </AuthGuard>} />
+            <Route path="/cliente/:id" element={ <AuthGuard> <ClienteForm /> </AuthGuard>} />
           </Routes>
         </Box>
 

@@ -7,13 +7,15 @@ import myfetch from '../../utils/myfetch';
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Servicoss from '../../models/Servicoss'
+import getValidationMessages from '../../utils/getValidationMessages';
 
 export default function ServicoForm() {
     const API_PATH = '/servicos'
 
     const navigate = useNavigate()
+    const params = useParams()
   
     const [state, setState] = React.useState({
       Servico: {}, // Objeto vazio
@@ -43,13 +45,47 @@ export default function ServicoForm() {
       sendData()
     }
   
+        //Este useffect será executado apenas durante o carregamento inicial da página
+    React.useEffect(() => {
+      //se houver parâmetro id na rota, dvemos carregar um registro existente para edição
+      if(params.id)fetchData()
+    }, [])
+  
+    async function fetchData() {
+      setState({...state, showWaiting:true, errors:{}})
+      try {
+        const result = await myfetch.get(`${API_PATH}/${params.id}`)
+          setState({
+            ...state,
+            Servico: result,
+            showWaiting: false
+          })
+      }
+      catch(error){
+        console.log(error)
+        setState({
+          ...state,
+          showWaiting: false,
+          errors: errorMessages,
+          notif: {
+            severity: 'error',
+            show: true,
+            message: 'ERRO: ' + error.message
+          }
+        })
+      }
+    }
+
     async function sendData() {
       setState({...state, showWaiting: true})
       try {
-        //Chama a validação da biblioteca Joi
-        await Servicoss.validateAsync(Servico)
+         //Chama a validação da biblioteca Joi
+         await Servicoss.validateAsync(Servico, {abortEarly: false})
 
-        await myfetch.post(API_PATH, Servico)
+         //registro já existe: chama put para atualizar
+         if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, Servico)
+
+        else await myfetch.post(API_PATH, Servico)
         // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
         setState({
           ...state,
@@ -62,19 +98,23 @@ export default function ServicoForm() {
         })
       }
       catch(error) {
+        const { validationError, errorMessages } = getValidationMessages(error)
+
         console.error(error)
         // DAR FEEDBACK NEGATIVO
         setState({
           ...state,
           showWaiting: false,
+          errors: errorMessages,
           notif: {
             severity: 'error',
-            show: true,
+            show: !validationError,
             message: 'ERRO: ' + error.message
           }
         })
       }
     }
+    
 
     function handleNotifClose(event, reason) {
       if (reason === 'clickaway') {
@@ -104,7 +144,7 @@ export default function ServicoForm() {
           {notif.message}
       </Notification>
         
-        <PageTitle title="Cadastrar novo serviço" />
+      <PageTitle title= {params.id ? "Editar serviço ": "Cadastrar novo serviço"} />
 
 
         <form onSubmit={handleFormSubmit}>

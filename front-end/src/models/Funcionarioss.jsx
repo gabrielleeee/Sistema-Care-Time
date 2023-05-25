@@ -60,5 +60,5 @@ const Funcionario = Joi.object({
      .required()
      .error(new Error('A senha é obrigatória'))
 })
-
+.options({allowUnknown: true})
 export default Funcionario
