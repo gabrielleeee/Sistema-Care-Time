@@ -8,8 +8,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../components/ui/Notification'
 import myfetch from '../utils/myfetch'
 import PageTitle from '../components/ui/PageTitle'
+import { useNavigate } from 'react-router-dom'
 
-export default function Login() {
+export default function Login({ onLoginLogout }) {
 
   const [usuario, setUsuario] = React.useState('')
   const [senha, setSenha] = React.useState('')
@@ -19,6 +20,8 @@ export default function Login() {
     message: '',
     severity: 'success' // ou 'error'
   })
+
+  const navigate = useNavigate()
 
   function handleChange(event) {
     if (event.target.name === 'usuario') setUsuario(event.target.value)
@@ -40,6 +43,10 @@ export default function Login() {
         message: 'Autenticação realizada com sucesso!',
         severity: 'success'
       })
+
+      onLoginLogout(true)
+
+      navigate('/')   // Vai para a página inicial
 
     }
     catch(error) {

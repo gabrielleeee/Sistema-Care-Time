@@ -3,21 +3,20 @@
 require('dotenv').config()
 
 
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
 
 const cors = require('cors')
-app.use(cors())
+app.use(cors({
+    origin: process.env.FRONT_ORIGIN,
+    credentials: true
+}))
 
-//Conexão colm Banco de Dados-------------------------------------------------
+//Conexão com Banco de Dados-------------------------------------------------
 
 const db = require('./models')
 
