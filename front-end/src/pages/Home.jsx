@@ -5,7 +5,7 @@ import background from '../pages/imagens/foto.jpg';
 export default function Home() {
   return (
     <>
-      <h1 style={{ textAlign: 'center', color: '#993399', fontSize: '60px'}}>CARE TIME</h1>
+      <h1 style={{ textAlign: 'center', color: '#993399', fontSize: '60px', fontFamily:"Verdana"}}>CARE TIME</h1>
     
 
      

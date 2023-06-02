@@ -91,7 +91,7 @@ export default function Login({ onLoginLogout }) {
         {notif.message}
       </Notification>
 
-      <PageTitle title="Login" />
+      <PageTitle title="LOGIN" />
 
       <Paper sx={{
         width: '512px',
